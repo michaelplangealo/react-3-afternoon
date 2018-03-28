@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import ProfileIcon from 'react-icons/lib/md/person-outline';
-import ReplyIcon from 'react-icons/lib/md/chat-bubble-outline';
-import FavoriteIcon from 'react-icons/lib/md/favorite-outline';
-import MessageIcon from 'react-icons/lib/md/mail-outline';
-import MasterControlIcon from 'react-icons/lib/md/more-vert';
+import React, { Component } from "react";
+import ProfileIcon from "react-icons/lib/md/person-outline";
+import ReplyIcon from "react-icons/lib/md/chat-bubble-outline";
+import FavoriteIcon from "react-icons/lib/md/favorite-outline";
+import MessageIcon from "react-icons/lib/md/mail-outline";
+import MasterControlIcon from "react-icons/lib/md/more-vert";
 
-import './Post.css';
+import "./Post.css";
 
-import Edit from './Edit/Edit';
+import Edit from "./Edit/Edit";
 
 //////////////////////////////////////////////////////// THIS COMPONENT IS BEING RENDERED IN THE *APP* COMPONENT
 
@@ -54,20 +54,22 @@ export default class Post extends Component {
     // const editing = this.state.editing
     // const showMasterMenu = this.state.showMasterMenu
     const { editing, showMasterMenu } = this.state;
-    const { text, date, updatePostFn } = this.props;
+    const { text, date, updatePostFn, deletePostFn, id } = this.props;
 
     return (
       // Main body of post
       <section className="Post__parent" onClick={this.hideMasterMenu}>
-
         {/* Three dots in top right corner */}
         <div className="Post__master-controls">
           <MasterControlIcon onClick={this.toggleMasterMenu} />
 
           {/* Drop-down menu. Remember that the "showMasterMenu" variable has been destructured off of this.state */}
-          <div className="Post__master-menu" style={{ display: showMasterMenu ? 'flex' : 'none' }}>
+          <div
+            className="Post__master-menu"
+            style={{ display: showMasterMenu ? "flex" : "none" }}
+          >
             <span onClick={this.showEdit}>Edit</span>
-            <span onClick={() => this.props.deletePostFn}>Delete</span>
+            <span onClick={() => deletePostFn(id)}>Delete</span>
           </div>
         </div>
 
@@ -92,17 +94,17 @@ export default class Post extends Component {
               }
         */}
         <div className="Post__content">
-          {
-            // This has been pulled off of this.state via destructuring
-            editing
-              ?
-              <Edit text={text}
-                id={this.props.id}
-                hideEdit={this.hideEdit}
-                updatePostFn={updatePostFn} />
-              :
-              <span className="Post__text">{text}</span>
-          }
+          {// This has been pulled off of this.state via destructuring
+          editing ? (
+            <Edit
+              text={text}
+              id={this.props.id}
+              hideEdit={this.hideEdit}
+              updatePostFn={updatePostFn}
+            />
+          ) : (
+            <span className="Post__text">{text}</span>
+          )}
         </div>
 
         {/* These are all of the cute little icons in the bottom left corner */}
@@ -111,8 +113,7 @@ export default class Post extends Component {
           <FavoriteIcon className="Post__control-icon" />
           <MessageIcon className="Post__control-icon" />
         </div>
-
       </section>
-    )
+    );
   }
 }
